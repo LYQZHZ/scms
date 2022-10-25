@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="page-model-aboutStudent" id="page-model-aboutStudent">
+    <!-- Modal -->
+    <div class="modal fade" id="modifyStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="aboutstudent-times-btn" type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelForStudent">新建学生</h4>
+                </div>
+
+                <!--          <th>工号</th>-->
+                <!--          <th>姓名</th>-->
+                <!--          <th>性别</th>-->
+                <!--          <th>年龄</th>-->
+                <!--          <th>联系电话</th>-->
+                <!--          <th>操作</th>-->
+
+                <!--          <td th:text="${teacher.jobNo}">*</td>-->
+                <!--          <td th:text="${teacher.realName}">*</td>-->
+                <!--          <td th:text="${teacher.gender}">*</td>-->
+                <!--          <td th:text="${teacher.age}">*</td>-->
+                <!--          <td th:text="${teacher.contactNumber}">*</td>-->
+
+                <div class="modal-body">
+                    <form action="/student/save" method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="StudentId" name="id" placeholder="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="StudentSno">学号</label>
+                            <input type="text" class="form-control" id="StudentSno" name="sno" placeholder="输入工号">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="StudentRealName">姓名</label>
+                            <input type="text" class="form-control" id="StudentRealName" name="realName"
+                                   placeholder="输入姓名">
+                        </div>
+
+                        <!--              <div class="form-group">-->
+                        <!--                <label for="TeacherGender">性別</label>-->
+                        <!--                <input type="text" class="form-control" id="TeacherGender" name="gender" placeholder="输入性別">-->
+                        <!--              </div>-->
+                        <div class="form-group">
+                            <label>性别:</label>
+                            <label>
+                                <input id="gender_male_stu" class="form-check-input" type="radio" name="gender"
+                                       value="男"
+                                       checked>
+                                男
+                            </label>
+                            <label>
+                                <input id="gender_female_stu" class="form-check-input" type="radio" name="gender"
+                                       value="女">
+                                女
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="StudentAge">年龄</label>
+                            <input type="number" class="form-control" id="StudentAge" name="age" placeholder="输入年龄">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="StudentContactNumber">联系电话</label>
+                            <input type="text" class="form-control" id="StudentContactNumber" name="contactNumber"
+                                   placeholder="输入联系电话">
+                        </div>
+                        <div class="form-group">
+                            <label for="StudentContactNumber">班级</label>
+                            <select class="form-select form-control" id="StudentMajor" name="major">
+                                <option th:each="classAndGrade,iterStat:${classAndGrades}"
+                                        th:text="${classAndGrade.className}">
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="StudentUserId" name="userId" placeholder="">
+                        </div>
+
+                        <div>
+                            <span id="error-message-Student" style="color: red"></span>
+                            <span id="ok-message-Student" style="color: green"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="aboutStudent-close-btn" type="button" class="btn btn-default"
+                                    data-dismiss="modal">退出
+                            </button>
+                            <button id="aboutStudent-btn" type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

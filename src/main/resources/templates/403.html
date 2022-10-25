@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>拒绝访问</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        body{
+            background-color:#d8e1ff;
+        }
+        .logo{
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+        }
+        .logo-img{
+            display:inline-block;
+            width:80px;
+            height:80px;
+            margin-right: 20px;
+        }
+        .logo-text{
+            display:flex;
+            flex-direction: column;
+            height:80px;
+            overflow: hidden;
+        }
+        .logo-text-hz{
+            height:50px;
+            font-size: 45px;
+            color:#8faf8f;
+            text-shadow: 1px 1px 6px #5f5fff;
+        }
+        .logo-text-pinyin{
+            height:30px;
+            font-size: 25px;
+            color:#8f8f8f;;
+        }
+        .panel{
+            margin-top: 30px;
+        }
+        .panel .panel-body{
+            color:#ff5555;
+
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="logo">
+                <img alt="logo" class="logo-img" th:src="@{/image/logo.png}">
+                <div class="logo-text">
+                    <span class="logo-text-hz">成才学校</span>
+                    <span class="logo-text-pinyin">ChengcaiSchool</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">警示：</h3>
+                </div>
+                <div class="panel-body">
+                    你没有访问此资源的权限！
+                </div>
+                <div class="panel-footer" id="date"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("#date").text(new Date())
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>系统管理员页面</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <style>
+    body{
+      background-color:#d8e1ff;
+    }
+    .logo{
+      display: flex;
+      flex-direction: row;
+      margin-top: 10px;
+    }
+    .logo-img{
+      display:inline-block;
+      width:80px;
+      height:80px;
+      margin-right: 20px;
+    }
+    .logo-text{
+      display:flex;
+      flex-direction: column;
+      height:80px;
+      overflow: hidden;
+    }
+    .logo-text-hz{
+      height:50px;
+      font-size: 45px;
+      color:#8faf8f;
+      text-shadow: 1px 1px 6px #5f5fff;
+    }
+    .logo-text-pinyin{
+      height:30px;
+      font-size: 25px;
+      color:#8f8f8f;
+    }
+    .loginer{
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .loginer>span{
+      font-size: 16px;
+      color: rgb(9,195,237);
+      margin-right: 20px;
+
+    }
+    .loginer>button{
+      margin-right: 10px;
+    }
+    .page-title{
+      width: 100%;
+      text-align: center;
+      border-bottom: #999999 2px solid;
+    }
+    .page-title>span{
+      font-size: 24px;
+      color: #999999;
+    }
+    .content{
+      margin-top: 10px;
+    }
+    .content-menu{
+      background-color: #8faf8f;
+      border-radius: 5px;
+    }
+    .manage-page-table{
+      background-color: #fcfcfc;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+    }
+
+    .manage-page-top{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+
+    .manage-page-pagination{
+      display: flex;
+      justify-content: center;
+    }
+
+  </style>
+</head>
+<body>
+
+<input type="hidden" id="pageType" th:value="${pageType}">
+
+<div class="container">
+  <div th:replace="~{header_frag.html::div#logo}">页头</div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-title">
+        <span>用户与教务员管理</span>
+      </div>
+
+    </div>
+  </div>
+<div class="content">
+  <div class="row">
+
+      <div class="col-md-3">
+        <div class="content-menu">
+        <!-- Nav tabs -->
+          <ul class="nav nav-pills nav-stacked" role="tablist">
+            <li class="active" id="menu-user"><a href="#user-manage" data-toggle="tab">用户管理</a></li>
+            <li id="menu-academic"><a href="#acadmic_manage"  data-toggle="tab">教务员管理</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab panes -->
+      <div class="col-md-9">
+        <div class="content-body">
+          <div class="tab-content">
+            <div th:replace="~{admin_page_frag/user_frag.html::div#user-manage}">user</div>
+            <div th:replace="~{admin_page_frag/academic_frag.html::div#acadmic_manage}">academic</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-model">
+  <div th:replace="~{modifypsw_frag.html::div#page-model-modifypsw}">page-model-modifypsw</div>
+  <div th:replace="~{admin_page_frag/modal_aboutacademic_frag.html::div#page-model-aboutAcadimic}">page-model-aboutAcadimic</div>
+</div>
+</div>
+<script>
+  $(document).ready(function (){
+    $.ajaxSettings.async = false;
+
+    let pageType = $("#pageType").val()
+    if (pageType=="academic"){
+
+      $("#user-manage").removeClass("active");
+      $("#acadmic_manage").addClass("active");
+      $("#menu-user").removeClass("active");
+      $("#menu-academic").addClass("active");
+
+
+      // $("#menu-academic").toggleClass("active");添加和删除之间切换
+
+    }else {
+      $("#acadmic_manage").removeClass("active");
+      $("#user_manage").addClass("active");
+      $("#menu-academic").removeClass("active");
+      $("#menu-user").addClass("active");
+    }
+    $.ajaxSetup(
+            {
+              complete:function (e){
+                if (e.status=="403"){
+                  location.href="/error/denied"
+                }
+              }
+            }
+    )
+    $("#modifypswbtn").click(function (){
+      $("#error-message").text("");
+      $("#ok-message").text("");
+      let oldpsw = $("#oldpassword").val();
+      let newpsw = $("#newpassword").val();
+      let repsw = $("#repassword").val();
+      if (!oldpsw || !newpsw || !repsw){
+        $("#error-message").text("密码不可为空！");
+        return
+      }
+      if (oldpsw==newpsw){
+        $("#error-message").text("新旧密码不能相同！");
+        return
+      }
+      if (repsw!=newpsw){
+        $("#error-message").text("两次输入得密码不同！");
+        return
+      }
+      if (newpsw.length<6||newpsw.length>12){
+        $("#error-message").text("密码得长度应为6-12！");
+        return
+      }
+        $.post("/user/modipsw",
+                {
+                  username:"admin",
+                  oldpassword:oldpsw,
+                  newpassword:newpsw
+                },
+                function(data,status){
+                  if(data=="OK"){
+                    $("#ok-message").text("密码修改成功！");
+                    $("#modifypswbtn").hide();
+                    $("#modifypsw-close-btn").text("关闭");
+
+                    return
+                  }else if(data == "VALIDATION_FAILED"){
+                    $("#error-message").text("提交数据有误！");
+                  }else if(data == "RUN_ERROR"){
+                    location.href = "/error"
+                  }
+                });
+    })
+$("#modifypsw-close-btn").click(function (){
+  if ($("#modifypsw-close-btn").text()=="关闭"){
+    $("#modifypsw-close-btn").text("放弃");
+    $("#modifypswbtn").show();
+  }
+})
+    $("#modifypsw-times-btn").click(function (){
+      if ($("#modifypsw-close-btn").text()=="关闭"){
+        $("#modifypsw-close-btn").text("放弃");
+        $("#modifypswbtn").show();
+      }
+    })
+    $("#aboutacademic-btn").click(function () {
+      let academicId = $("#AcadimicId").val()
+      let academicJobNo = $("#AcadimicJobNo").val()
+      let academicRealName = $("#AcadimicRealName").val()
+      let academicGender
+      academicGender = $("input:radio:checked").val()
+      let academicAge = $("#AcadimicAge").val()
+      let academicContactNumber = $("#AcadimicContactNumber").val()
+      let academicUserId = $("#AcadimicUserId").val()
+      if (!academicJobNo || academicJobNo.length != 8) {
+        $("#academic-error-message").text("工号的长度为8个字符！");
+        return
+      }
+      if (!academicRealName || academicJobNo.length == 0) {
+        $("#academic-error-message").text("必须填写性名！");
+        return
+      }
+      if (academicAge) {
+        if (academicAge < 0) {
+          $("#academic-error-message").text("必须是正整数！")
+          return
+        }
+      }
+      if (academicContactNumber) {
+        if (academicContactNumber.length != 11) {
+          $("#academic-error-message").text("联系电话的长度为11！")
+          return
+        }
+      }
+      let data = {}
+      if (academicId) {
+        data = {
+          id: academicId,
+          jobNo: academicJobNo,
+          realName: academicRealName,
+          gender: academicGender,
+          age: academicAge,
+          contactNumber: academicContactNumber,
+          userId: academicUserId
+        }
+      } else {
+        data = {
+          jobNo: academicJobNo,
+          realName: academicRealName,
+          gender: academicGender,
+          age: academicAge,
+          contactNumber: academicContactNumber
+        }
+      }
+      $.post(
+              "/academic/save",
+              data,
+              function (data, status) {
+                console.log(data)
+                if (data == "OK") {
+                  $("#ok-message-Acadimic").text("数据保存成功！")
+                  $("#aboutacademic-btn").hide();
+                  $("#aboutacademic-close-btn").text("关闭");
+                } else if (data == "VALIDATION_FAILED") {
+                  $("#error-message-Acadimic").text("工号为8个字符，姓名不能为空！")
+                } else if (data == "DUPLICATE_ENTRY") {
+                  $("#error-message-Acadimic").text("工号已经存在！")
+                } else if (data == "RUN_ERROR") {
+                  location.href = "/error"
+                }
+              });
+    })
+  })
+  $("#aboutacademic-close-btn").click(function () {
+    if ($("#aboutacademic-close-btn").text() == "关闭") {
+      $("#aboutacademic-close-btn").text("放弃");
+      $("#aboutacademic-btn").show();
+      location.href = "/academic/page?menu=academic";
+    }
+  })
+  $("#aboutacademic-times-btn").click(function () {
+    if ($("#aboutacademic-close-btn").text() == "关闭") {
+      $("#aboutacademic-close-btn").text("放弃");
+      $("#aboutacademic-btn").show();
+      location.href = "/academic/page?menu=academic";
+    }
+  })
+  var initializePassword = function(id) {
+    $.post("/user/initpsw",
+            {
+              userId:id
+            },
+            function(data,status){
+                if (data=="OK"){
+                  alert("密码已初始化！")
+                }else if (data == "VALIDATION_FAILED"){
+                  alert("提交信息不正确！")
+                }else if (data == "RUN_ERROR"){
+                  location.href="/error"
+                }
+            });
+  }
+  var changestatus = function (id) {
+    $.post("/user/changestatus",
+            {
+              userId:id
+            },
+            function(data,status){
+              if (data=="OK"){
+                location.reload();
+              }else if (data == "VALIDATION_FAILED"){
+                alert("要改变状态的用户不存在！！")
+              }else if (data == "RUN_ERROR"){
+                location.href="/error"
+              }
+            });
+  }
+
+  var editAcadimic = function (id) {
+    $("#myModalLabelForAcadimic").text("编辑教务员信息");
+    $("#error-message-Acadimic").text("")
+    $("#error-ok-Acadimic").text("")
+    let jobNo = $("#" + id + "_jobNo").text();
+    let realName = $("#" + id + "_realName").text();
+    let gender = $("#" + id + "_gender").text();
+    let age = $("#" + id + "_age").text();
+    let contactNumber = $("#" + id + "_contactNumber").text();
+    let userId = $("#" + id + "_userId").val();
+    $("#AcadimicId").val(id);
+    $("#AcadimicJobNo").val(jobNo);
+    $("#AcadimicRealName").val(realName);
+    if(gender = "男"){
+      $("#gender_male").attr("checked",true);
+    }else{
+      $("#gender_female").attr("checked",true);
+    }
+    $("#AcadimicAge").val(age);
+    $("#AcadimicContactNumber").val(contactNumber);
+    $("#AcadimicUserId").val(userId);
+  }
+
+  var newTeachingStaffBtn = function () {
+    $("#myModalLabelForAcadimic").text("新建教务员信息");
+    $("#AcadimicId").val("");
+    $("#AcadimicJobNo").val("");
+    $("#AcadimicRealName").val("");
+    $("#AcadimicGender").val("");
+    $("#AcadimicAge").val("");
+    $("#AcadimicContactNumber").val("");
+  }
+
+  var deleteAcademic = function (id){
+    location.replace("/login_success");
+    $.post("/academic/remove",
+            {
+              id:id
+            },
+            function(data,status){
+              if (data == "OK"){
+                location.reload();
+              }else if (data = "VALIDATION_FAILED"){
+                alert("要删除的教务员不存在！")
+              }else if (data = "RUN_ERROR"){
+                location.href = "/error"
+              }
+            });
+  }
+
+
+
+</script>
+</body>
+</html>

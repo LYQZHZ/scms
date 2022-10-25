@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login page</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        body{
+            background-color: #bce8f1;
+        }
+        .logo{
+            /*设置logo行为横向排列*/
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+        }
+        .logo-img{
+            /*设置logo图片样式*/
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
+        .logo-text{
+            /*logo文字部分变为纵向排列*/
+            display: flex;
+            flex-direction: column;
+            height: 80px;
+            overflow: hidden;
+        }
+        .logo-text-hz{
+            /*logo汉字部分样式*/
+            height: 50px;
+            font-size: 45px;
+            color: #8faf8f;
+            text-shadow: 1px 1px 6px #5f5fff;
+        }
+        .logo-text-pinyin{
+            /*logo拼音部分样式*/
+            height: 30px;
+            font-size: 25px;
+            color: #8f8f8f;
+        }
+        .img-school{
+            margin-top: 20px;
+        }
+        .img-school>img{
+            width: 100%;
+            border-radius: 10px;
+        }
+        .login-form{
+            border: 1px solid white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 150px;
+        }
+        .login-form .form-group label{
+            padding: 0px;
+            width: 50px;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+    </style>
+</head>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="logo">
+                <img alt="logo" class="logo-img" th:src="@{/image/logo.png}">
+                <div class="logo-text">
+                    <span class="logo-text-hz">成才学校</span>
+                    <span class="logo-text-pinyin">ChengCaiSchool</span>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <div class="img-school">
+                <img alt="school" th:src="@{image/school.png}">
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="login-form">
+                <form class="form-horizontal" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="username" placeholder="请输入用户名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                    </div>
+                </div>
+                    <div th:if="${param.error}">用户名或密码错误 </div>
+                    <div th:if="${param.logout}">登出成功 </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input name="remember" type="checkbox"> 记住我
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success">登录</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--<div th:if="${param.error}">用户名或密码错误 </div>
+<div th:if="${param.logout}">登出成功 </div>
+<body>
+<form th:action="@{/login}" method="post">
+    用户名：<input type="text" name="username">
+    密码：<input type="password" name="password">
+    <button type="submit">登录</button>
+</form>-->
+</body>
+</html>

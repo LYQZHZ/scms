@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="tab-pane active" id="user-manage">
+    <div class="manage-page">
+        <div class="manage-page-top">
+            <form class="form-inline" action="/user/query" method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="输入用户名">
+                </div>
+
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+        <div class="manage-page-table">
+            <table class="table table-hover">
+                <caption></caption>
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user,iterStat:${userList}">
+                    <td th:text="${user.username}">*</td>
+                    <td th:text="${user.enabled ? '启用':'禁用'}">*</td>
+                    <td>
+                        <button class="btn btn-danger" th:if="${user.enabled}"
+                                th:onclick="|changestatus( ${user.id} )|">禁用
+                        </button>
+                        <button class="btn btn-success" th:if="${not user.enabled}"
+                                th:onclick="|changestatus( ${user.id} )|">启用
+                        </button>
+                        <button class="btn btn-primary" th:onclick="|initializePassword( ${user.id} )|">初始化密码</button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="manage-page-pagination">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

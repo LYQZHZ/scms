@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教务员页面</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/academic_page/classAbout.js}"></script>
+    <script th:src="@{/js/academic_page/studentAbout.js}"></script>
+    <script th:src="@{/js/academic_page/courseAbout.js}"></script>
+    <script th:src="@{/js/academic_page/teachingtaskAbout.js}"></script>
+    <style>
+        body{
+            background-color:#d8e1ff;
+        }
+        .logo{
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+        }
+        .logo-img{
+            display:inline-block;
+            width:80px;
+            height:80px;
+            margin-right: 20px;
+        }
+        .logo-text{
+            display:flex;
+            flex-direction: column;
+            height:80px;
+            overflow: hidden;
+        }
+        .logo-text-hz{
+            height:50px;
+            font-size: 45px;
+            color:#8faf8f;
+            text-shadow: 1px 1px 6px #5f5fff;
+        }
+        .logo-text-pinyin{
+            height:30px;
+            font-size: 25px;
+            color:#8f8f8f;
+        }
+        .loginer{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .loginer>span{
+            font-size: 16px;
+            color: rgb(9,195,237);
+            margin-right: 20px;
+
+        }
+        .loginer>button{
+            margin-right: 10px;
+        }
+        .page-title{
+            width: 100%;
+            text-align: center;
+            border-bottom: #999999 2px solid;
+        }
+        .page-title>span{
+            font-size: 24px;
+            color: #999999;
+        }
+        .content{
+            margin-top: 10px;
+        }
+        .content-menu{
+            background-color: #8faf8f;
+            border-radius: 5px;
+        }
+        .manage-page-table{
+            background-color: #fcfcfc;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+
+        .manage-page-top{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .manage-page-pagination{
+            display: flex;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<input type="hidden" id="pageType" th:value="${pageType}">
+
+<div class="container">
+    <div th:replace="~{header_frag.html::div#logo}">页头</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-title">
+                <span>教师·班级·学生·课程·教学任务管理</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="content">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="content-menu">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li class="active" id="menu-teacher"><a href="#teacher_manage" data-toggle="tab">教师管理</a></li>
+                        <li id="menu-class"><a href="#class_manage"  data-toggle="tab">班级管理</a></li>
+                        <li id="menu-student"><a href="#student_manage"  data-toggle="tab">学生管理</a></li>
+                        <li id="menu-course"><a href="#course_manage"  data-toggle="tab">课程管理</a></li>
+                        <li id="menu-teachingTask"><a href="#teachingTask_manage"  data-toggle="tab">教学任务管理</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab panes -->
+            <div class="col-md-9">
+                <div class="content-body">
+                    <div class="tab-content">
+                        <div th:replace="~{academic_page_frag/teacher_frag.html::div#teacher_manage}">teacher</div>
+                        <div th:replace="~{academic_page_frag/class_frag.html::div#class_manage}">class</div>
+                        <div th:replace="~{academic_page_frag/student_frag.html::div#student_manage}">student</div>
+                        <div th:replace="~{academic_page_frag/course_frag.html::div#course_manage}">course</div>
+                        <div th:replace="~{academic_page_frag/teachingTask_frag.html::div#teachingTask_manage}">teachingTask</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-model">
+    <div th:replace="~{modifypsw_frag.html::div#page-model-modifypsw}">page-model-modifypsw</div>
+    <div th:replace="~{academic_page_frag/modal_aboutteacher_frag.html::div#page-model-aboutTeacher}">page-model-aboutTeacher</div>
+    <div th:replace="~{academic_page_frag/modal_aboutclass_frag.html::div#page-model-aboutClass}">page-model-aboutClass</div>
+    <div th:replace="~{academic_page_frag/modal_aboutstudent_frag.html::div#page-model-aboutStudent}">page-model-aboutStudent</div>
+    <div th:replace="~{academic_page_frag/modal_aboutcourse_frag.html::div#page-model-aboutCourse}">page-model-aboutCourse</div>
+    <div th:replace="~{academic_page_frag/modal_aboutteachingtask_frag.html::div#page-model-aboutTeachingTask}">page-model-aboutTeachingTask</div>
+</div>
+</div>
+<script>
+    $(document).ready(function (){
+        $.ajaxSettings.async = false;
+        //--------------进入页面显示页面的选择功能-------------------------
+        let pageType = $("#pageType").val()
+        if (pageType=="class"){
+
+            $("#teacher_manage").removeClass("active");
+            $("#student_manage").removeClass("active");
+            $("#course_manage").removeClass("active");
+            $("#teachingTask_manage").removeClass("active");
+            $("#class_manage").addClass("active");
+            $("#menu-teacher").removeClass("active");
+            $("#menu-student").removeClass("active");
+            $("#menu-course").removeClass("active");
+            $("#menu-teachingTask").removeClass("active");
+            $("#menu-class").addClass("active");
+
+
+            // $("#menu-student").toggleClass("active");添加和删除之间切换
+
+        }else if (pageType=="teacher"){
+            $("#class_manage").removeClass("active");
+            $("#student_manage").removeClass("active");
+            $("#course_manage").removeClass("active");
+            $("#teachingTask_manage").removeClass("active");
+            $("#teacher_manage").addClass("active");
+            $("#menu-class").removeClass("active");
+            $("#menu-student").removeClass("active");
+            $("#menu-course").removeClass("active");
+            $("#menu-teachingTask").removeClass("active");
+            $("#menu-teacher").addClass("active");
+        }else if (pageType=="course"){
+            $("#class_manage").removeClass("active");
+            $("#student_manage").removeClass("active");
+            $("#teacher_manage").removeClass("active");
+            $("#teachingTask_manage").removeClass("active");
+            $("#course_manage").addClass("active");
+            $("#menu-class").removeClass("active");
+            $("#menu-student").removeClass("active");
+            $("#menu-teacher").removeClass("active");
+            $("#menu-teachingTask").removeClass("active");
+            $("#menu-course").addClass("active");
+        }else if (pageType=="student"){
+            $("#class_manage").removeClass("active");
+            $("#teacher_manage").removeClass("active");
+            $("#course_manage").removeClass("active");
+            $("#teachingTask_manage").removeClass("active");
+            $("#student_manage").addClass("active");
+            $("#menu-class").removeClass("active");
+            $("#menu-teacher").removeClass("active");
+            $("#menu-course").removeClass("active");
+            $("#menu-teachingTask").removeClass("active");
+            $("#menu-student").addClass("active");
+        }else {
+            $("#class_manage").removeClass("active");
+            $("#teacher_manage").removeClass("active");
+            $("#course_manage").removeClass("active");
+            $("#student_manage").removeClass("active");
+            $("#teachingTask_manage").addClass("active");
+            $("#menu-class").removeClass("active");
+            $("#menu-teacher").removeClass("active");
+            $("#menu-course").removeClass("active");
+            $("#menu-student").removeClass("active");
+            $("#menu-teachingTask").addClass("active");
+        }
+        $.ajaxSetup(
+            {
+                complete:function (e){
+                    if (e.status=="403"){
+                        location.href="/error/denied"
+                    }
+                }
+            }
+        )
+
+        //-------------------修改密码相关功能------------------------------
+        $("#modifypswbtn").click(function (){
+            $("#error-message").text("");
+            $("#ok-message").text("");
+            let oldpsw = $("#oldpassword").val();
+            let newpsw = $("#newpassword").val();
+            let repsw = $("#repassword").val();
+            if (!oldpsw || !newpsw || !repsw){
+                $("#error-message").text("密码不可为空！");
+                return
+            }
+            if (oldpsw==newpsw){
+                $("#error-message").text("新旧密码不能相同！");
+                return
+            }
+            if (repsw!=newpsw){
+                $("#error-message").text("两次输入得密码不同！");
+                return
+            }
+            if (newpsw.length<6||newpsw.length>12){
+                $("#error-message").text("密码得长度应为6-12！");
+                return
+            }
+            $.post("/user/modipsw",
+                {
+                    username: $("#Loginer").val(),
+                    oldpassword:oldpsw,
+                    newpassword:newpsw
+                },
+                function(data,status){
+                    if(data=="OK"){
+                        $("#ok-message").text("密码修改成功！");
+                        $("#modifypswbtn").hide();
+                        $("#modifypsw-close-btn").text("关闭");
+
+                        return
+                    }else if(data == "VALIDATION_FAILED"){
+                        $("#error-message").text("提交数据有误！");
+                    }else if(data == "RUN_ERROR"){
+                        location.href = "/error"
+                    }
+                });
+        })
+        $("#modifypsw-close-btn").click(function (){
+            if ($("#modifypsw-close-btn").text()=="关闭"){
+                $("#modifypsw-close-btn").text("放弃");
+                $("#modifypswbtn").show();
+            }
+        })
+        $("#modifypsw-times-btn").click(function (){
+            if ($("#modifypsw-close-btn").text()=="关闭"){
+                $("#modifypsw-close-btn").text("放弃");
+                $("#modifypswbtn").show();
+            }
+        })
+
+        //-----------------教师页面相关功能-----------------------------
+        $("#aboutTeacher-btn").click(function () {
+            let TeacherId = $("#TeacherId").val()
+            let TeacherJobNo = $("#TeacherJobNo").val()
+            let TeacherRealName = $("#TeacherRealName").val()
+            let TeacherGender
+            TeacherGender = $("input:radio:checked").val()
+            let TeacherAge = $("#TeacherAge").val()
+            let TeacherContactNumber = $("#TeacherContactNumber").val()
+            let TeacherMajor = $("#TeacherMajor").val()
+            let TeacherUserId = $("#TeacherUserId").val()
+            if (!TeacherJobNo || TeacherJobNo.length != 8) {
+                $("#error-message-Teacher").text("工号的长度为8个字符！");
+                return
+            }
+            if (!TeacherRealName || TeacherRealName.length == 0) {
+                $("#error-message-Teacher").text("必须填写性名！");
+                return
+            }
+            if (TeacherAge) {
+                if (TeacherAge < 0) {
+                    $("#error-message-Teacher").text("必须是正整数！")
+                    return
+                }
+            }
+            if (TeacherContactNumber) {
+                if (TeacherContactNumber.length != 11) {
+                    $("#error-message-Teacher").text("联系电话的长度为11！")
+                    return
+                }
+            }
+            let data = {}
+            if (TeacherId) {
+                data = {
+                    id: TeacherId,
+                    jobNo: TeacherJobNo,
+                    realName: TeacherRealName,
+                    gender: TeacherGender,
+                    age: TeacherAge,
+                    contactNumber: TeacherContactNumber,
+                    major: TeacherMajor,
+                    userId: TeacherUserId
+                }
+            } else {
+                data = {
+                    jobNo: TeacherJobNo,
+                    realName: TeacherRealName,
+                    gender: TeacherGender,
+                    age: TeacherAge,
+                    contactNumber: TeacherContactNumber,
+                    major: TeacherMajor
+                }
+            }
+            $.post(
+                "/teacher/save",
+                data,
+                function (data, status) {
+                    console.log(data)
+                    if (data == "OK") {
+                        $("#error-message-Teacher").text("")
+                        $("#ok-message-Teacher").text("数据保存成功！")
+                        $("#aboutTeacher-btn").hide();
+                        $("#aboutTeacher-close-btn").text("关闭");
+                    } else if (data == "VALIDATION_FAILED") {
+                        $("#error-message-Teacher").text("工号为8个字符，其他项不能为空！")
+                    } else if (data == "DUPLICATE_ENTRY") {
+                        $("#ok-message-Teacher").text("")
+                        $("#error-message-Teacher").text("工号已经存在！")
+                    } else if (data == "RUN_ERROR") {
+                        location.href = "/error"
+                    }
+                });
+        })
+    })
+    $("#aboutTeacher-close-btn").click(function () {
+        if ($("#aboutTeacher-close-btn").text() == "关闭") {
+            $("#aboutTeacher-close-btn").text("放弃");
+            $("#aboutTeacher-btn").show();
+            location.href = "/teacher/page?menu=teacher&Loginer="+$("#Loginer").val();
+        }
+    })
+    $("#aboutTeacher-times-btn").click(function () {
+        if ($("#aboutTeacher-close-btn").text() == "关闭") {
+            $("#aboutTeacher-close-btn").text("放弃");
+            $("#aboutTeacher-btn").show();
+            location.href = "/teacher/page?menu=teacher&Loginer="+$("#Loginer").val();
+        }
+    })
+
+    var editTeacher = function (id) {
+        $("#myModalLabelForTeacher").text("编辑教师信息");
+        $("#error-message-Teacher").text("")
+        $("#error-ok-Teacher").text("")
+        let jobNo = $("#" + id + "_jobNo").text();
+        let realName = $("#" + id + "_realName").text();
+        let gender = $("#" + id + "_gender").text();
+        let age = $("#" + id + "_age").text();
+        let contactNumber = $("#" + id + "_contactNumber").text();
+        let major = $("#" + id + "_major").text();
+        let userId = $("#" + id + "_userId").val();
+        $("#TeacherId").val(id);
+        $("#TeacherJobNo").val(jobNo);
+        $("#TeacherRealName").val(realName);
+        if(gender = "男"){
+            $("#gender_male").attr("checked",true);
+        }else{
+            $("#gender_female").attr("checked",true);
+        }
+        $("#TeacherAge").val(age);
+        $("#TeacherContactNumber").val(contactNumber);
+        $("#TeacherMajor").val(major);
+        $("#TeacherUserId").val(userId);
+    }
+
+    var newTeachingStaffBtn = function () {
+        $("#myModalLabelForTeacher").text("新建教师信息");
+        $("#TeacherId").val("");
+        $("#TeacherJobNo").val("");
+        $("#TeacherRealName").val("");
+        $("#TeacherGender").val("");
+        $("#TeacherAge").val("");
+        $("#TeacherContactNumber").val("");
+        $("#TeacherMajor").val("");
+    }
+
+    var deleteTeacher = function (id){
+        location.replace("/login_success");
+        $.post("/teacher/remove",
+            {
+                id:id
+            },
+            function(data,status){
+                if (data == "OK"){
+                    location.href = "/teacher/page?menu=teacher&Loginer="+$("#Loginer").val();
+                }else if (data = "VALIDATION_FAILED"){
+                    alert("要删除的教师不存在！")
+                }else if (data = "RUN_ERROR"){
+                    location.href = "/error"
+                }
+            });
+    }
+</script>
+
+</body>
+</html>

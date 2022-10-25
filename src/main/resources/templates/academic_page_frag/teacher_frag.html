@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="tab-pane" id="teacher_manage">
+    <div class="manage-page">
+        <div class="manage-page-top">
+            <div class="manage-page-top-form">
+                <form class="form-inline" action="/teacher/query" method="get">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="realname" name="realname" placeholder="输入姓名">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" th:value="${Loginer}" name="Loginer">
+                    </div>
+
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+            </div>
+            <div class="manage-page-top-add">
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modifyTeacher"
+                        id="newTeachingStaff" th:onclick="newTeachingStaffBtn()">新建教师
+                </button>
+            </div>
+
+        </div>
+        <div class="manage-page-table">
+            <table class="table table-hover">
+                <caption></caption>
+                <thead>
+                <tr>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>联系电话</th>
+                    <th>专业</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher,iterStat:${teachers}">
+                    <input type="hidden" name="id" th:id="|$(teacher.id)_${teacher.id}|">
+                    <td th:id="|${teacher.id}_jobNo|" th:text="${teacher.jobNo}">*</td>
+                    <td th:id="|${teacher.id}_realName|" th:text="${teacher.realName}">*</td>
+                    <td th:id="|${teacher.id}_gender|" th:text="${teacher.gender}">*</td>
+                    <td th:id="|${teacher.id}_age|" th:text="${teacher.age}">*</td>
+                    <td th:id="|${teacher.id}_contactNumber|" th:text="${teacher.contactNumber}">*</td>
+                    <td th:id="|${teacher.id}_major|" th:text="${teacher.major}">*</td>
+                    <input type="hidden" th:id="|${teacher.id}_userId|" th:value="${teacher.userId}"></input>
+                    <td>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modifyTeacher"
+                                id="editTeacher" th:onclick="|editTeacher(${teacher.id})|">编辑
+                        </button>
+                        <button class="btn btn-danger" th:onclick="|deleteTeacher(${teacher.id})|">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="manage-page-pagination">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

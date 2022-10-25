@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="page-model-aboutClass" id="page-model-aboutClass">
+    <!-- Modal -->
+    <div class="modal fade" id="modifyClass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="aboutclass-times-btn" type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelForClass">新建班级</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/class/save" method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="ClassId" name="id" placeholder="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ClassClassName">班级名</label>
+                            <input type="text" class="form-control" id="ClassClassName" name="className"
+                                   placeholder="输入班级名">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ClassGrade">年级</label>
+                            <input type="text" class="form-control" id="ClassGrade" name="grade"
+                                   placeholder="输入年级">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ClassMajor">专业</label>
+                            <input type="text" class="form-control" id="ClassMajor" name="major"
+                                   placeholder="输入专业">
+                        </div>
+
+
+                        <div>
+                            <span id="error-message-Class" style="color: red"></span>
+                            <span id="ok-message-Class" style="color: green"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="aboutClass-close-btn" type="button" class="btn btn-default"
+                                    data-dismiss="modal">退出
+                            </button>
+                            <button id="aboutClass-btn" type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

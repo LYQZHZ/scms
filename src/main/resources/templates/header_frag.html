@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="logo">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="logo">
+                <img alt="logo" class="logo-img" th:src="@{/image/logo.png}">
+                <div class="logo-text">
+                    <span class="logo-text-hz">成才学校</span>
+                    <span class="logo-text-pinyin">ChengcaiSchool</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="loginer">
+                <span th:text="|欢迎您: ${Loginer} |">欢迎您：xxx</span>
+                <!--                该隐藏域用来提取登陆者的用户名-->
+                <input type="hidden" th:value="${Loginer}" id="Loginer">
+                <button class="btn btn-info" data-toggle="modal" data-target="#modifyPasswordModel" id="modifypsw">修改密码
+                </button>
+                <a class="btn btn-info" th:href="@{/logout}">退出登录</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

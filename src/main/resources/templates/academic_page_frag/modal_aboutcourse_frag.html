@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="page-model-aboutCourse" id="page-model-aboutCourse">
+    <!-- Modal -->
+    <div class="modal fade" id="modifyCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="aboutcourse-times-btn" type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelForCourse">新建课程</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/course/save" method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="CourseId" name="id" placeholder="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CourseCno">课程号</label>
+                            <input type="text" class="form-control" id="CourseCno" name="cno"
+                                   placeholder="输入课程号">
+                        </div>
+                        <div class="form-group">
+                            <label for="CourseCname">课程名</label>
+                            <input type="text" class="form-control" id="CourseCname" name="cname"
+                                   placeholder="输入课程名">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CoursePeriod">学时</label>
+                            <input type="number" class="form-control" id="CoursePeriod" name="period"
+                                   placeholder="输入学时">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CourseCredit">学分</label>
+                            <input type="number" min="0.0" step="0.5" class="form-control" id="CourseCredit"
+                                   name="credit"
+                                   placeholder="输入学分">
+                        </div>
+
+
+                        <div>
+                            <span id="error-message-Course" style="color: red"></span>
+                            <span id="ok-message-Course" style="color: green"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="aboutCourse-close-btn" type="button" class="btn btn-default"
+                                    data-dismiss="modal">退出
+                            </button>
+                            <button id="aboutCourse-btn" type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

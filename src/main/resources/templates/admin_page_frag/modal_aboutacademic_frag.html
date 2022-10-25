@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="page-model-aboutAcadimic" id="page-model-aboutAcadimic">
+    <!-- Modal -->
+    <div class="modal fade" id="modifyAcadimic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="aboutacademic-times-btn" type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelForAcadimic">新建教务员</h4>
+                </div>
+
+                <!--          <th>工号</th>-->
+                <!--          <th>姓名</th>-->
+                <!--          <th>性别</th>-->
+                <!--          <th>年龄</th>-->
+                <!--          <th>联系电话</th>-->
+                <!--          <th>操作</th>-->
+
+                <!--          <td th:text="${academic.jobNo}">*</td>-->
+                <!--          <td th:text="${academic.realName}">*</td>-->
+                <!--          <td th:text="${academic.gender}">*</td>-->
+                <!--          <td th:text="${academic.age}">*</td>-->
+                <!--          <td th:text="${academic.contactNumber}">*</td>-->
+
+                <div class="modal-body">
+                    <form action="/academic/save" method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="AcadimicId" name="id" placeholder="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AcadimicJobNo">工号</label>
+                            <input type="text" class="form-control" id="AcadimicJobNo" name="jobNo" placeholder="输入工号">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AcadimicRealName">姓名</label>
+                            <input type="text" class="form-control" id="AcadimicRealName" name="realName"
+                                   placeholder="输入姓名">
+                        </div>
+
+                        <!--              <div class="form-group">-->
+                        <!--                <label for="AcadimicGender">性別</label>-->
+                        <!--                <input type="text" class="form-control" id="AcadimicGender" name="gender" placeholder="输入性別">-->
+                        <!--              </div>-->
+                        <div class="form-group">
+                            <label>性别:</label>
+                            <label>
+                                <input id="gender_male" class="form-check-input" type="radio" name="gender" value="男"
+                                       checked>
+                                男
+                            </label>
+                            <label>
+                                <input id="gender_female" class="form-check-input" type="radio" name="gender" value="女">
+                                女
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AcadimicAge">年龄</label>
+                            <input type="number" class="form-control" id="AcadimicAge" name="age" placeholder="输入年龄">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AcadimicContactNumber">联系电话</label>
+                            <input type="text" class="form-control" id="AcadimicContactNumber" name="contactNumber"
+                                   placeholder="输入联系电话">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="AcadimicUserId" name="userId" placeholder="">
+                        </div>
+
+                        <div>
+                            <span id="error-message-Acadimic" style="color: red"></span>
+                            <span id="ok-message-Acadimic" style="color: green"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="aboutacademic-close-btn" type="button" class="btn btn-default"
+                                    data-dismiss="modal">退出
+                            </button>
+                            <button id="aboutacademic-btn" type="button" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class</title>
+</head>
+<body>
+<div class="tab-pane" id="class_manage">
+    <div class="manage-page">
+        <div class="manage-page-top">
+            <div class="manage-page-top-form">
+                <form class="form-inline" action="/class/query" method="get">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="className" name="className" placeholder="输入班级名">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" th:value="${Loginer}" name="Loginer">
+                    </div>
+
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+            </div>
+            <div class="manage-page-top-add">
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modifyClass"
+                        id="newClass" th:onclick="newClassButton()">新建班级
+                </button>
+            </div>
+
+        </div>
+        <div class="manage-page-table">
+            <table class="table table-hover">
+                <caption></caption>
+                <thead>
+                <tr>
+                    <th>班级名</th>
+                    <th>年级</th>
+                    <th>专业</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="class,iterStat:${classAndGrades}">
+                    <input type="hidden" name="id" th:id="|$(class.id)_${class.id}|">
+                    <td th:id="|${class.id}_className|" th:text="${class.className}">*</td>
+                    <td th:id="|${class.id}_grade|" th:text="${class.grade}">*</td>
+                    <td th:id="|${class.id}_major|" th:text="${class.major}">*</td>
+                    <td>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modifyClass"
+                                id="editClass" th:onclick="|editClass(${class.id})|">编辑
+                        </button>
+                        <button class="btn btn-danger" th:onclick="|deleteClass(${class.id})|">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="manage-page-pagination">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>
